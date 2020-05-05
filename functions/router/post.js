@@ -8,8 +8,9 @@ const router = express.Router();
 
 router.get('/', PostController.index);
 router.post('/', AuthMiddleware, [
-  body('body').isString().isLength({ min: 10 }).trim().notEmpty(),
+  body('body').isString().trim().notEmpty(),
 ], PostController.store);
-
+router.get('/:postId', PostController.show);
+router.delete('/:postId', AuthMiddleware, PostController.destroy);
 
 module.exports = router;

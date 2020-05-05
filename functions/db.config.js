@@ -25,3 +25,4 @@ firebase.initializeApp(firebaseConfig);
 exports.admin = admin;
 exports.db = admin.firestore();
 exports.firebase = firebase;
+exports.firebaseConfig = firebaseConfig;

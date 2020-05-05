@@ -1,4 +1,4 @@
-const { db, firebase } = require('../db.config');
+const { db, firebase, firebaseConfig: { storageBucket } } = require('../db.config');
 const { validationResult } = require('express-validator');
 
 exports.signup = async (req, res, next) => {
@@ -15,12 +15,14 @@ exports.signup = async (req, res, next) => {
 
     const { user } = await firebase.auth().createUserWithEmailAndPassword(req.body.email, req.body.password);
     const token = await user.getIdToken();
+    const imageUrl = `https://firebasestorage.googleapis.com/v0/b/${storageBucket}/o/user_90px.png?alt=media`
 
     const userProfile = {
       userId: user.uid,
       email: req.body.email,
       username: req.body.username,
-      createdAt: new Date().toISOString()
+      createdAt: new Date().toISOString(),
+      imageUrl
     }
 
     await db.doc(`/users/${req.body.username}`).set(userProfile);
