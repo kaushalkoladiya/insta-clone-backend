@@ -15,5 +15,4 @@ router.post('/update', AuthMiddleware, [
 router.get('/', AuthMiddleware, UserController.userData);
 router.get('/:username', UserController.show);
 
-
 module.exports = router;

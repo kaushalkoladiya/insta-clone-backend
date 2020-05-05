@@ -11,6 +11,7 @@ exports.index = async (req, res, next) => {
         userId: doc.data().userId,
         body: doc.data().body,
         createdAt: doc.data().createdAt,
+        imageUrl: doc.data().imageUrl
       });
     });
 

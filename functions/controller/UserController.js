@@ -23,7 +23,7 @@ exports.imageUpload = (req, res, next) => {
     const filePath = path.join(os.tmpdir(), imageFileName);
     imageToBeUpdated = { filePath, mimeType };
     file.pipe(fs.createWriteStream(filePath));
-    return;
+    return true;
   });
   try {
     busboy.on('finish', async () => {
@@ -41,11 +41,10 @@ exports.imageUpload = (req, res, next) => {
       return res.status(200).json({ message: "Succefully uploaded" });
     });
     busboy.end(req.rawBody);
-
+    return true;
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
-
 }
 
 exports.update = async (req, res, next) => {
