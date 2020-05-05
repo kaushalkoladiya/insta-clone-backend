@@ -10,9 +10,9 @@ exports.markAsRead = async (req, res, next) => {
     });
     await batch.commit();
 
-    return res.status(200).json({ message: 'Mark as read' });
+    return res.status(200).json({ message: 'Marked as read' });
   } catch (error) {
     console.error(error);
-    return res.status(500).json(error);
+    return res.status(500).json({ error });
   }
 }

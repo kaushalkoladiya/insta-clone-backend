@@ -43,7 +43,7 @@ exports.imageUpload = (req, res, next) => {
     busboy.end(req.rawBody);
     return true;
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    return res.status(500).json({ error });
   }
 }
 
@@ -93,10 +93,10 @@ exports.userData = async (req, res, next) => {
         notificationId: doc.id,
       });
     });
-    return res.status(200).json(userData);
+    return res.status(200).json({ userData });
 
   } catch (error) {
-    return res.status(500).json(error);
+    return res.status(500).json({ error });
   }
 }
 
@@ -121,8 +121,8 @@ exports.show = async (req, res, next) => {
         username: doc.data().username,
       });
     });
-    return res.status(200).json(userData);
+    return res.status(200).json({userData});
   } catch (error) {
-    return res.status(500).json(error);
+    return res.status(500).json({error});
   }
 }

@@ -24,9 +24,9 @@ exports.store = async (req, res, next) => {
     }
 
     await db.collection('comments').add(comment);
-    
+
     return res.status(200).json({ comment });
   } catch (error) {
-    return res.status(500).json({ error });
+    return res.status(500).json(error);
   }
 }

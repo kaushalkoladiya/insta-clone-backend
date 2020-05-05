@@ -87,7 +87,7 @@ exports.CommentNotifiction = functions
     }
   });
 
-// Update in each post
+// Update profile in each post
 exports.OnUpdateProfilePicture = functions
   .region('asia-east2')
   .firestore

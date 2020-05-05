@@ -17,7 +17,7 @@ exports.index = async (req, res, next) => {
 
     return res.json({ result: posts });
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    return res.status(500).json({ error });
   }
 }
 

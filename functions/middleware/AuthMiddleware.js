@@ -4,7 +4,7 @@ module.exports = async (req, res, next) => {
   const tokenString = req.get('Authorization')
 
   if (!tokenString) {
-    return res.status(403).json({ message: 'Unauthozied' });
+    return res.status(403).json({ error: 'Unauthozied' });
   }
   const idToken = tokenString.split('Bearer ')[1];
   let decodedToken;
@@ -16,6 +16,6 @@ module.exports = async (req, res, next) => {
     req.userId = decodedToken.uid;
     return next();
   } catch (error) {
-    return res.status(403).json({ error: error.message });
+    return res.status(403).json({ error });
   }
 }
