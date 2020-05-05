@@ -14,7 +14,7 @@ exports.index = async (req, res, next) => {
       });
     });
 
-    res.json({ result: posts });
+    return res.json({ result: posts });
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
@@ -38,7 +38,7 @@ exports.store = async (req, res, next) => {
     const doc = await db.collection('posts').add(post);
     post.postId = doc.id;
 
-    res.json({ post });
+    return res.json({ post });
   } catch (error) {
     return res.status(500).json({ error });
   }

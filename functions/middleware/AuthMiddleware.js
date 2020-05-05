@@ -14,7 +14,7 @@ module.exports = async (req, res, next) => {
     const data = await db.collection('users').where('userId', '==', decodedToken.uid).limit(1).get();
     req.user = data.docs[0].data();
     req.userId = decodedToken.uid;
-    next();
+    return next();
   } catch (error) {
     return res.status(403).json({ error: error.message });
   }

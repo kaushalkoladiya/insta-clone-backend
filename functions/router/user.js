@@ -13,6 +13,7 @@ router.post('/update', AuthMiddleware, [
   body('website').isString().trim().withMessage('Invalid URL')
 ], UserController.update);
 router.get('/', AuthMiddleware, UserController.userData);
+router.get('/:username', UserController.show);
 
 
 module.exports = router;
