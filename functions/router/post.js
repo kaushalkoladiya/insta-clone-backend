@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.get('/', PostController.index);
 router.post('/', AuthMiddleware, [
-  body('body').isString().trim().notEmpty(),
+  // body('body').isString().trim().notEmpty(),
 ], PostController.store);
 router.get('/:postId', PostController.show);
 router.delete('/:postId', AuthMiddleware, PostController.destroy);
