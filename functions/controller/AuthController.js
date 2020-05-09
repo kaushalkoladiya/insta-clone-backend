@@ -5,12 +5,17 @@ exports.signup = async (req, res, next) => {
   try {
     const validatedData = validationResult(req);
     if (!validatedData.isEmpty()) {
-      res.status(400).json({ validation: validatedData.errors });
+      const error = validatedData.errors.map(error => {
+        return {
+          [error.param]: error.msg
+        }
+      });
+      return res.status(400).json({ error });
     }
     const { exists } = await db.doc(`/users/${req.body.username}`).get();
 
     if (exists) {
-      return res.status(400).json({ username: 'This username already taken' });
+      return res.status(400).json({ error: 'This username already taken' });
     }
 
     const { user } = await firebase.auth().createUserWithEmailAndPassword(req.body.email, req.body.password);
@@ -30,7 +35,7 @@ exports.signup = async (req, res, next) => {
     return res.status(200).json({ token });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ error: "Somthing went wrong, please try again." });
+    return res.status(500).json({ error: error.message });
   }
 }
 
@@ -38,7 +43,12 @@ exports.login = async (req, res, next) => {
   try {
     const validatedData = validationResult(req);
     if (!validatedData.isEmpty()) {
-      res.status(400).json({ validation: validatedData.errors });
+      const error = validatedData.errors.map(error => {
+        return {
+          [error.param]: error.msg
+        }
+      });
+      return res.status(400).json({ error });
     }
     const { user } = await firebase.auth().signInWithEmailAndPassword(req.body.email, req.body.password);
     const token = await user.getIdToken();

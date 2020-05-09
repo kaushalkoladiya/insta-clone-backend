@@ -1,6 +1,7 @@
 const functions = require('firebase-functions');
 const express = require('express');
 const bodyParser = require('body-parser');
+const helmet = require('helmet');
 
 const { db } = require('./db.config');
 
@@ -12,6 +13,18 @@ const likeRouter = require('./router/like');
 const notificationRouter = require('./router/notification');
 
 const app = express();
+
+app.use(helmet());
+
+app.use((req, res, next) => {
+	res.setHeader('Access-Control-Allow-Origin', '*');
+	res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE');
+	res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+	if (req.method === 'OPTIONS') {
+		return res.sendStatus(200);
+	}
+	return next();
+});
 
 app.use(bodyParser.json());
 app.use(authRouter);

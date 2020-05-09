@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.post('/profile/image', AuthMiddleware, UserController.imageUpload);
 router.post('/update', AuthMiddleware, [
-  body('bio').isString().trim().withMessage('Bio is invalid'),
+  body('bio').isString().trim().withMessage('Invalid Bio'),
   body('location').isString().trim().withMessage('Invalid location'),
   body('website').isString().trim().withMessage('Invalid URL')
 ], UserController.update);

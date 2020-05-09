@@ -8,16 +8,18 @@ exports.index = async (req, res, next) => {
     data.forEach(doc => {
       posts.push({
         postId: doc.id,
-        userId: doc.data().userId,
+        username: doc.data().username,
         body: doc.data().body,
         createdAt: doc.data().createdAt,
-        imageUrl: doc.data().imageUrl
+        imageUrl: doc.data().imageUrl,
+        likeCount: doc.data().likeCount,
+        commentCount: doc.data().commentCount,
       });
     });
 
-    return res.json({ result: posts });
+    return res.json({ posts });
   } catch (error) {
-    return res.status(500).json({ error });
+    return res.status(500).json({ error:error.message });
   }
 }
 
@@ -25,7 +27,12 @@ exports.store = async (req, res, next) => {
   try {
     const validatedData = validationResult(req);
     if (!validatedData.isEmpty()) {
-      res.status(400).json({ validation: validatedData.errors });
+      const error = validatedData.errors.map(error => {
+        return {
+          [error.param]: error.msg
+        }
+      });
+      return res.status(400).json({ error });
     }
     const post = {
       body: req.body.body,
@@ -41,7 +48,7 @@ exports.store = async (req, res, next) => {
 
     return res.json({ post });
   } catch (error) {
-    return res.status(500).json({ error });
+    return res.status(500).json({ error:error.message });
   }
 }
 
@@ -62,7 +69,7 @@ exports.show = async (req, res, next) => {
     });
     return res.status(200).json({ post });
   } catch (error) {
-    return res.status(500).json({ error });
+    return res.status(500).json({ error:error.message });
   }
 }
 
@@ -82,6 +89,6 @@ exports.destroy = async (req, res, next) => {
     return res.status(200).json({ message: "Delete Successfully." });
 
   } catch (error) {
-    return res.status(500).json({ error });
+    return res.status(500).json({ error:error.message });
   }
 }

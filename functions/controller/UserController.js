@@ -43,7 +43,7 @@ exports.imageUpload = (req, res, next) => {
     busboy.end(req.rawBody);
     return true;
   } catch (error) {
-    return res.status(500).json({ error });
+    return res.status(500).json({ error: error.message });
   }
 }
 
@@ -51,7 +51,12 @@ exports.update = async (req, res, next) => {
   try {
     const validatedData = validationResult(req);
     if (!validatedData.isEmpty()) {
-      res.status(400).json({ validation: validatedData.errors });
+      const error = validatedData.errors.map(error => {
+        return {
+          [error.param]: error.msg
+        }
+      });
+      return res.status(400).json({ error });
     }
     await db.doc(`/users/${req.user.username}`).update({
       bio: req.body.bio,
@@ -121,8 +126,8 @@ exports.show = async (req, res, next) => {
         username: doc.data().username,
       });
     });
-    return res.status(200).json({userData});
+    return res.status(200).json({ userData });
   } catch (error) {
-    return res.status(500).json({error});
+    return res.status(500).json({ error });
   }
 }

@@ -5,7 +5,8 @@ const serviceAccount = require('./credential.json');
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://social-12ee2.firebaseio.com"
+  databaseURL: "https://social-12ee2.firebaseio.com",
+  storageBucket: "social-12ee2.appspot.com"
 });
 
 var firebaseConfig = {

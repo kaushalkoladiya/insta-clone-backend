@@ -5,7 +5,12 @@ exports.store = async (req, res, next) => {
   try {
     const validatedData = validationResult(req);
     if (!validatedData.isEmpty()) {
-      res.status(400).json({ validation: validatedData.errors });
+      const error = validatedData.errors.map(error => {
+        return {
+          [error.param]: error.msg
+        }
+      });
+      return res.status(400).json({ error });
     }
 
     const doc = await db.doc(`/posts/${req.params.postId}`).get();
