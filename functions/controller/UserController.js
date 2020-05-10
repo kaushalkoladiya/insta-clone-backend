@@ -122,6 +122,7 @@ exports.show = async (req, res, next) => {
         commentCount: doc.data().commentCount,
         createdAt: doc.data().createdAt,
         imageUrl: doc.data().imageUrl,
+        image: doc.data().image,
         likeCount: doc.data().likeCount,
         username: doc.data().username,
       });
