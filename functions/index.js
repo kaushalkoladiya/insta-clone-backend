@@ -2,6 +2,7 @@ const functions = require('firebase-functions');
 const express = require('express');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
+const cors = require('cors');
 
 const { db } = require('./db.config');
 
@@ -14,6 +15,7 @@ const notificationRouter = require('./router/notification');
 
 const app = express();
 
+app.use(cors());
 app.use(helmet());
 
 app.use((req, res, next) => {
